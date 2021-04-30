@@ -1,9 +1,9 @@
-import * as Phaser from 'phaser';
-import { GameScene } from './gameScene';
+import { Game, Types } from 'phaser';
+import { GameScene } from './scenes/gameScene';
 import './css/style.css'
 
 
-const gameConfig: Phaser.Types.Core.GameConfig = {
+const gameConfig: Types.Core.GameConfig = {
   title: 'Sample',
   type: Phaser.AUTO,
   scale: {
@@ -21,4 +21,4 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   scene: GameScene
 };
 
-export const game = new Phaser.Game(gameConfig);
+export const game = new Game(gameConfig);
