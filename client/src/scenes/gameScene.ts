@@ -1,4 +1,5 @@
 import { Scene } from "phaser";
+import { Player } from "../classes/player";
 import { Floor } from "../classes/floor";
 
 
@@ -9,20 +10,20 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class GameScene extends Scene {
-    private character: Phaser.GameObjects.Sprite;
     private floor: Floor = new Floor(this);
+    private player: Player = new Player(this, this.floor);
 
     constructor() {
         super(sceneConfig);
     }
 
     public preload() {
-        // this.load.image('character', 'src/assets/sprites/character.png')
+        this.load.image('player', 'src/assets/sprites/character.png')
     }
 
     public create() {
         this.floor.createFloor();
-        // this.character = this.add.sprite(this.tiles[2][4].x, this.tiles[2][4].y, 'character').setScale(0.23, 0.23).setOrigin(0.56, 0.85).setInteractive();
+        this.player.createPlayer(6, 3, true);
     }
 
     public update() {
