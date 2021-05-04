@@ -1,47 +1,49 @@
-import { Scene } from "phaser";
+import { GameScene } from "src/scenes/gameScene";
 import { Floor } from "./floor";
+import { Movement } from "./movement";
 import { Vector } from "./vector";
 
 export class Player {
     private sprite: Phaser.GameObjects.Sprite;
-    private scene: Scene;
+    private scene: GameScene;
     private floor: Floor;
     private tilePosition: Vector;
+    private movement: Movement;
 
-    constructor(scene: Scene, floor: Floor) {
+    constructor(scene: GameScene, floor: Floor) {
         this.scene = scene;
         this.floor = floor;
     }
 
-    public createPlayer(xTile: number, yTile: number, isInteractive: boolean) {
+    public drawPlayer(xTile: number, yTile: number, isInteractive: boolean) {
+        this.movement = new Movement(this, this.scene);
         this.tilePosition = new Vector(xTile, yTile);
-        this.sprite = this.scene.add.sprite(this.floor.getTiles()[xTile][yTile].x, this.floor.getTiles()[xTile][yTile].y, 'player').setScale(0.23, 0.23).setOrigin(0.56, 0.85);
+        this.sprite = this.scene.add.sprite(this.floor.getTiles()[xTile][yTile].x, this.floor.getTiles()[xTile][yTile].y, 'player');
+        this.sprite.setScale(0.20, 0.20);
+        this.sprite.setOrigin(0.56, 0.85);
+        this.sprite.play('jump');
         if (isInteractive) {
             this.sprite.setInteractive();
         }
     }
 
-    public move(xTile: number, yTile: number) {
-        this.tilePosition.set(xTile, yTile);
-        this.sprite.setPosition(this.floor.getTiles()[xTile][yTile].x, this.floor.getTiles()[xTile][yTile].y);
+    public reactOnInput() {
+        this.movement.reactOnInput();
     }
 
-    public moveUp() {
-        this.move(this.tilePosition.x, this.tilePosition.y - 1);
+    public getCurrentTilewithOffset(xOffset: number, yOffset: number): Phaser.GameObjects.Rectangle {
+        return this.getFloor().getTiles()[this.getTilePosition().x + xOffset][this.getTilePosition().y + yOffset];
     }
 
-    public moveRight() {
-        this.move(this.tilePosition.x + 1, this.tilePosition.y);
+    public getSprite(): Phaser.GameObjects.Sprite {
+        return this.sprite
     }
 
-    public moveDown() {
-        this.move(this.tilePosition.x, this.tilePosition.y + 1);
+    public getTilePosition(): Vector {
+        return this.tilePosition;
     }
 
-    public moveLeft() {
-        this.move(this.tilePosition.x - 1, this.tilePosition.y);
+    public getFloor(): Floor {
+        return this.floor;
     }
-
-
-
 }

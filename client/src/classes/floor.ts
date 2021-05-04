@@ -15,7 +15,7 @@ export class Floor {
         this.scene = scene;
     }
 
-    public createFloor() {
+    public drawFloor() {
         let color: number = WHITE;
         for (let i = 0; i < Floor.NUM_HORIZONTAL_TILES; i++) {
             this.tiles[i] = [];
