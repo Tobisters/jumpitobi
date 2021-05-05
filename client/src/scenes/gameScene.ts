@@ -1,6 +1,6 @@
 import { Scene } from "phaser";
 import { Player } from "../classes/player";
-import { Floor } from "../classes/floor";
+import { Disco } from "../classes/disco";
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -10,8 +10,8 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class GameScene extends Scene {
-    private floor: Floor = new Floor(this);
-    private player: Player = new Player(this, this.floor);
+    private disco: Disco = new Disco(this);
+    private player: Player = new Player(this, this.disco);
     private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
 
     constructor() {
@@ -24,8 +24,8 @@ export class GameScene extends Scene {
 
     public create() {
         this.createAnimations();
-        this.floor.drawFloor();
-        this.player.drawPlayer(6, 3, true);
+        this.disco.drawDisco();
+        this.player.drawPlayer(103, 110, true);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
     }
 
@@ -69,6 +69,10 @@ export class GameScene extends Scene {
         this.load.image('jump28', 'src/assets/sprites/character/jump28.png');
         this.load.image('jump29', 'src/assets/sprites/character/jump29.png');
         this.load.image('jump30', 'src/assets/sprites/character/jump30.png');
+
+        // load the tilemap
+        this.load.image('disco_tiles', 'src/assets/tilemaps/CyberpunkNightclub.jpg')
+        this.load.tilemapTiledJSON('tilemap', 'src/assets/tilemaps/disco.json')
     }
 
     private createAnimations() {

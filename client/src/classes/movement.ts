@@ -1,5 +1,5 @@
 import { GameScene } from "src/scenes/gameScene";
-import { Floor } from "./floor";
+import { Disco } from "./disco";
 import { Player } from "./player";
 
 export class Movement {
@@ -49,30 +49,30 @@ export class Movement {
             xOffset = 1;
             yOffset = 0;
             this.player.getSprite().flipX = false;
-            this.player.getSprite().setOrigin(0.56, 0.85);
+            this.player.getSprite().setOrigin(-0.03, 0.36);
             this.playHorizontalTween(xOffset, yOffset);
         } else if (direction === 'left') {
             xOffset = -1;
             yOffset = 0;
             this.player.getSprite().flipX = true;
-            this.player.getSprite().setOrigin(0.43, 0.85);
+            this.player.getSprite().setOrigin(-0.12, 0.36);
             this.playHorizontalTween(xOffset, yOffset);
         } else {
             return;
         }
 
-        this.player.getTilePosition().set(this.player.getTilePosition().x + xOffset, this.player.getTilePosition().y + yOffset);
+        this.player.setTilePosition(this.player.getTilePosition().x + xOffset, this.player.getTilePosition().y + yOffset);
     }
 
     private playHorizontalTween(xOffset: number, yOffset: number) {
         let XTween: Phaser.Tweens.Tween = this.scene.tweens.create({
             targets: this.player.getSprite(),
-            x: { value: this.player.getCurrentTilewithOffset(xOffset, yOffset).x, duration: 200, ease: 'Linear' },
+            x: { value: this.player.getCurrentTilePositionwithOffset(xOffset, yOffset).x, duration: 200, ease: 'Linear' },
             repeat: 0,
         });
         let YTween: Phaser.Tweens.Tween = this.scene.tweens.create({
             targets: this.player.getSprite(),
-            y: { value: this.player.getCurrentTilewithOffset(0, 0).y - 50, duration: 100, ease: 'Expo' },
+            y: { value: this.player.getCurrentTilePositionwithOffset(0, 0).y - Disco.TILE_SIZE / 2, duration: 100, ease: 'Expo' },
             repeat: 0,
             yoyo: true
         });
@@ -82,15 +82,15 @@ export class Movement {
     }
 
     private playUpTween(xOffset: number, yOffset: number) {
-        let overjump = Floor.TILE_SIZE / 2;
+        const overjump = Disco.TILE_SIZE / 2;
         let YTween1: Phaser.Tweens.Tween = this.scene.tweens.create({
             targets: this.player.getSprite(),
-            y: { value: this.player.getCurrentTilewithOffset(xOffset, yOffset).y - overjump, duration: 200, ease: 'Quad' },
+            y: { value: this.player.getCurrentTilePositionwithOffset(xOffset, yOffset).y - overjump, duration: 200, ease: 'Quad' },
             repeat: 0,
         });
         let YTween2: Phaser.Tweens.Tween = this.scene.tweens.create({
             targets: this.player.getSprite(),
-            y: { value: this.player.getCurrentTilewithOffset(xOffset, yOffset).y, duration: 100, ease: 'Linear' },
+            y: { value: this.player.getCurrentTilePositionwithOffset(xOffset, yOffset).y, duration: 100, ease: 'Linear' },
             repeat: 0,
         });
 
@@ -99,15 +99,15 @@ export class Movement {
     }
 
     private playDownTween(xOffset: number, yOffset: number) {
-        let overjump = Floor.TILE_SIZE / 4;
+        const overjump = Disco.TILE_SIZE / 4;
         let YTween1: Phaser.Tweens.Tween = this.scene.tweens.create({
             targets: this.player.getSprite(),
-            y: { value: this.player.getCurrentTilewithOffset(0, 0).y - overjump, duration: 50, ease: 'Linear' },
+            y: { value: this.player.getCurrentTilePositionwithOffset(0, 0).y - overjump, duration: 50, ease: 'Linear' },
             repeat: 0,
         });
         let YTween2: Phaser.Tweens.Tween = this.scene.tweens.create({
             targets: this.player.getSprite(),
-            y: { value: this.player.getCurrentTilewithOffset(xOffset, yOffset).y, duration: 250, ease: 'Quad' },
+            y: { value: this.player.getCurrentTilePositionwithOffset(xOffset, yOffset).y, duration: 250, ease: 'Quad' },
             repeat: 0,
         });
 
