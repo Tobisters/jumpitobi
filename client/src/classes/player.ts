@@ -60,24 +60,25 @@ export class Player {
             key: 'jump_down',
             frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 18, end: 20 })
                 .concat(this.scene.anims.generateFrameNumbers('player', { start: 3, end: 3 })),
-            frameRate: 9,
+            frameRate: 12,
         });
         this.scene.anims.create({
             key: 'jump_up',
-            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 6, end: 8 }),
-            frameRate: 6,
+            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 6, end: 8 })
+                .concat(this.scene.anims.generateFrameNumbers('player', { start: 1, end: 1 })),
+            frameRate: 9,
         });
         this.scene.anims.create({
             key: 'jump_right',
             frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 0, end: 2 })
                 .concat(this.scene.anims.generateFrameNumbers('player', { start: 3, end: 3 })),
-            frameRate: 9,
+            frameRate: 15,
         });
         this.scene.anims.create({
             key: 'jump_left',
             frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 12, end: 14 })
                 .concat(this.scene.anims.generateFrameNumbers('player', { start: 3, end: 3 })),
-            frameRate: 9,
+            frameRate: 15,
         });
     }
 }

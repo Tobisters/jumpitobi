@@ -1,5 +1,7 @@
 import { GameScene } from "src/scenes/gameScene";
+import { TILE_SIZE } from "../shared/constants";
 import { Player } from "./player";
+import { Vector } from "./vector";
 
 export class Movement {
     static OVERJUMP_IN_PIXELS = 50;
@@ -39,25 +41,33 @@ export class Movement {
         if (direction === 'up') {
             xOffset = 0;
             yOffset = -1;
-            this.player.getSprite().setFrame(1);
+            if (this.playerCollides(xOffset, yOffset)) {
+                return;
+            }
             this.player.getSprite().play('jump_up');
             this.playUpTween(xOffset, yOffset);
         } else if (direction === 'down') {
             xOffset = 0;
             yOffset = 1;
-            this.player.getSprite().setFrame(3);
+            if (this.playerCollides(xOffset, yOffset)) {
+                return;
+            }
             this.player.getSprite().play('jump_down');
             this.playDownTween(xOffset, yOffset);
         } else if (direction === 'right') {
             xOffset = 1;
             yOffset = 0;
-            this.player.getSprite().setFrame(0);
+            if (this.playerCollides(xOffset, yOffset)) {
+                return;
+            }
             this.player.getSprite().play('jump_right');
             this.playHorizontalTween(xOffset, yOffset);
         } else if (direction === 'left') {
             xOffset = -1;
             yOffset = 0;
-            this.player.getSprite().setFrame(2);
+            if (this.playerCollides(xOffset, yOffset)) {
+                return;
+            }
             this.player.getSprite().play('jump_left');
             this.playHorizontalTween(xOffset, yOffset);
         } else {
@@ -114,5 +124,16 @@ export class Movement {
 
         YTween1.on('complete', () => YTween2.play());
         YTween1.play();
+    }
+
+    private playerCollides(xOffset: number, yOffset: number): boolean {
+        const newPlayerPosition = this.player.getCurrentTilePositionwithOffset(xOffset, yOffset);
+        console.log(newPlayerPosition)
+        for (let collisionTile of this.player.getDisco().getCollisionTiles()) {
+            if (newPlayerPosition.equals(new Vector(collisionTile.x * TILE_SIZE, collisionTile.y * TILE_SIZE))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

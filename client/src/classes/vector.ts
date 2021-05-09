@@ -11,4 +11,11 @@ export class Vector {
         this.x = x;
         this.y = y;
     }
+
+    public equals(otherVector: Vector) {
+        if (this.x === otherVector.x && this.y === otherVector.y) {
+            return true;
+        }
+        return false;
+    }
 }

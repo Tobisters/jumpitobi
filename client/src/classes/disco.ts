@@ -5,6 +5,8 @@ export class Disco {
     static NUM_VERTICAL_TILES = 200;
     static NUM_HORIZONTAL_TILES = 200;
     private scene: Scene;
+    // contains tiles that indicate where the player may not jump onto
+    private collisionTiles: Phaser.Tilemaps.Tile[];
 
     constructor(scene: Scene) {
         this.scene = scene;
@@ -27,7 +29,11 @@ export class Disco {
         map.addTilesetImage('generic', 'generic');
         map.addTilesetImage('basement', 'basement');
         map.addTilesetImage('bathroom', 'bathroom');
+
         map.createLayer('Background', ['borders', 'floors', 'walls']);
+        // save tiles where the player may not jump onto
+        const layer = map.createLayer('Collision', ['walls']);
+        this.collisionTiles = layer.getTilesWithin(undefined, undefined, undefined, undefined, { isNotEmpty: true });
         map.createLayer('Furniture1', ['conference', 'music', 'hospital', 'generic', 'bathroom', 'basement']);
         map.createLayer('Character', ['npc', 'npc2', 'npc3', 'npc4', 'hospital']);
         map.createLayer('Stair', ['stairs', 'hospital']);
@@ -42,5 +48,9 @@ export class Disco {
 
     public getYPositionOfFloor(yTile: number): number {
         return yTile * FLOOR_SIZE;
+    }
+
+    public getCollisionTiles(): Phaser.Tilemaps.Tile[] {
+        return this.collisionTiles;
     }
 }
