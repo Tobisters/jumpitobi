@@ -7,7 +7,7 @@ export class Player {
     private sprite: Phaser.GameObjects.Sprite;
     private scene: GameScene;
     private disco: Disco;
-    private tilePosition: Vector;
+    private floorPosition: Vector;
     private movement: Movement;
 
     constructor(scene: GameScene, disco: Disco) {
@@ -17,16 +17,16 @@ export class Player {
 
     public drawPlayer(xTile: number, yTile: number, isInteractive: boolean) {
         this.movement = new Movement(this, this.scene);
-        this.tilePosition = new Vector(xTile, yTile);
-        this.sprite = this.scene.add.sprite(this.disco.getXPositionOfTile(xTile), this.disco.getYPositionOfTile(yTile), 'player');
-        this.sprite.setScale(0.15, 0.15);
-        this.sprite.setOrigin(-0.03, 0.36);
-        this.sprite.play('jump');
+        this.floorPosition = new Vector(xTile, yTile);
+        this.sprite = this.scene.add.sprite(this.disco.getXPositionOfFloor(xTile), this.disco.getYPositionOfFloor(yTile), 'player');
+        this.sprite.setFrame(3);
+        this.sprite.setOrigin(-0.5, 0.4);
         if (isInteractive) {
             this.sprite.setInteractive();
         }
 
         this.scene.cameras.main.startFollow(this.sprite, true);
+        this.createAnimations();
     }
 
     public reactOnInput() {
@@ -34,8 +34,8 @@ export class Player {
     }
 
     public getCurrentTilePositionwithOffset(xOffset: number, yOffset: number): Vector {
-        const xPosition = this.disco.getXPositionOfTile(this.getTilePosition().x + xOffset);
-        const yPosition = this.disco.getYPositionOfTile(this.getTilePosition().y + yOffset);
+        const xPosition = this.disco.getXPositionOfFloor(this.getTilePosition().x + xOffset);
+        const yPosition = this.disco.getYPositionOfFloor(this.getTilePosition().y + yOffset);
         return new Vector(xPosition, yPosition);
     }
 
@@ -44,14 +44,40 @@ export class Player {
     }
 
     public getTilePosition(): Vector {
-        return this.tilePosition;
+        return this.floorPosition;
     }
 
-    public setTilePosition(x: number, y: number) {
-        this.tilePosition.set(x, y);
+    public setFloorPosition(x: number, y: number) {
+        this.floorPosition.set(x, y);
     }
 
     public getDisco(): Disco {
         return this.disco;
+    }
+
+    private createAnimations() {
+        this.scene.anims.create({
+            key: 'jump_down',
+            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 18, end: 20 })
+                .concat(this.scene.anims.generateFrameNumbers('player', { start: 3, end: 3 })),
+            frameRate: 9,
+        });
+        this.scene.anims.create({
+            key: 'jump_up',
+            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 6, end: 8 }),
+            frameRate: 6,
+        });
+        this.scene.anims.create({
+            key: 'jump_right',
+            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 0, end: 2 })
+                .concat(this.scene.anims.generateFrameNumbers('player', { start: 3, end: 3 })),
+            frameRate: 9,
+        });
+        this.scene.anims.create({
+            key: 'jump_left',
+            frames: this.scene.anims.generateFrameNumbers('player_jump', { start: 12, end: 14 })
+                .concat(this.scene.anims.generateFrameNumbers('player', { start: 3, end: 3 })),
+            frameRate: 9,
+        });
     }
 }

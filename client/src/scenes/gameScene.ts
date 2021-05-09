@@ -1,6 +1,7 @@
 import { Scene } from "phaser";
 import { Player } from "../classes/player";
 import { Disco } from "../classes/disco";
+import { TILE_SIZE } from "../shared/constants";
 
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -23,9 +24,8 @@ export class GameScene extends Scene {
     }
 
     public create() {
-        this.createAnimations();
         this.disco.drawDisco();
-        this.player.drawPlayer(103, 110, true);
+        this.player.drawPlayer(40, 17, true);
         this.cursorKeys = this.input.keyboard.createCursorKeys();
     }
 
@@ -38,82 +38,24 @@ export class GameScene extends Scene {
     }
 
     private loadImages() {
-        this.load.image('player', 'src/assets/sprites/character/player.png');
-        this.load.image('jump1', 'src/assets/sprites/character/jump1.png');
-        this.load.image('jump2', 'src/assets/sprites/character/jump2.png');
-        this.load.image('jump3', 'src/assets/sprites/character/jump3.png');
-        this.load.image('jump4', 'src/assets/sprites/character/jump4.png');
-        this.load.image('jump5', 'src/assets/sprites/character/jump5.png');
-        this.load.image('jump6', 'src/assets/sprites/character/jump6.png');
-        this.load.image('jump7', 'src/assets/sprites/character/jump7.png');
-        this.load.image('jump8', 'src/assets/sprites/character/jump8.png');
-        this.load.image('jump9', 'src/assets/sprites/character/jump9.png');
-        this.load.image('jump10', 'src/assets/sprites/character/jump10.png');
-        this.load.image('jump11', 'src/assets/sprites/character/jump11.png');
-        this.load.image('jump12', 'src/assets/sprites/character/jump12.png');
-        this.load.image('jump13', 'src/assets/sprites/character/jump13.png');
-        this.load.image('jump14', 'src/assets/sprites/character/jump14.png');
-        this.load.image('jump15', 'src/assets/sprites/character/jump15.png');
-        this.load.image('jump16', 'src/assets/sprites/character/jump16.png');
-        this.load.image('jump17', 'src/assets/sprites/character/jump17.png');
-        this.load.image('jump18', 'src/assets/sprites/character/jump18.png');
-        this.load.image('jump19', 'src/assets/sprites/character/jump19.png');
-        this.load.image('jump20', 'src/assets/sprites/character/jump20.png');
-        this.load.image('jump21', 'src/assets/sprites/character/jump21.png');
-        this.load.image('jump22', 'src/assets/sprites/character/jump22.png');
-        this.load.image('jump23', 'src/assets/sprites/character/jump23.png');
-        this.load.image('jump24', 'src/assets/sprites/character/jump24.png');
-        this.load.image('jump25', 'src/assets/sprites/character/jump25.png');
-        this.load.image('jump26', 'src/assets/sprites/character/jump26.png');
-        this.load.image('jump27', 'src/assets/sprites/character/jump27.png');
-        this.load.image('jump28', 'src/assets/sprites/character/jump28.png');
-        this.load.image('jump29', 'src/assets/sprites/character/jump29.png');
-        this.load.image('jump30', 'src/assets/sprites/character/jump30.png');
+        this.load.spritesheet('player', 'src/assets/sprites/character/player.png', { frameWidth: TILE_SIZE, frameHeight: TILE_SIZE * 2 });
+        this.load.spritesheet('player_jump', 'src/assets/sprites/character/player_jump.png', { frameWidth: TILE_SIZE, frameHeight: TILE_SIZE * 2 });
 
         // load the tilemap
-        this.load.image('disco_tiles', 'src/assets/tilemaps/CyberpunkNightclub.jpg')
-        this.load.tilemapTiledJSON('tilemap', 'src/assets/tilemaps/disco.json')
-    }
-
-    private createAnimations() {
-        this.anims.create({
-            key: 'jump',
-            frames: [
-                { key: 'jump1' },
-                { key: 'jump2' },
-                { key: 'jump3' },
-                { key: 'jump4' },
-                { key: 'jump5' },
-                { key: 'jump6' },
-                { key: 'jump7' },
-                { key: 'jump8' },
-                { key: 'jump9' },
-                { key: 'jump10' },
-                { key: 'jump11' },
-                { key: 'jump12' },
-                { key: 'jump13' },
-                { key: 'jump14' },
-                { key: 'jump15' },
-                { key: 'jump16' },
-                { key: 'jump17' },
-                { key: 'jump18' },
-                { key: 'jump19' },
-                { key: 'jump20' },
-                { key: 'jump21' },
-                { key: 'jump22' },
-                { key: 'jump23' },
-                { key: 'jump24' },
-                { key: 'jump25' },
-                { key: 'jump26' },
-                { key: 'jump27' },
-                { key: 'jump28' },
-                { key: 'jump29' },
-                { key: 'jump30' },
-                { key: 'player' }
-            ],
-            frameRate: 80,
-            showOnStart: false,
-            repeat: 0
-        });
+        this.load.image('borders', 'src/assets/tilemaps/Room/Room_Builder_borders_48x48.png');
+        this.load.image('floors', 'src/assets/tilemaps/Room/Room_Builder_Floors_48x48.png');
+        this.load.image('walls', 'src/assets/tilemaps/Room/Room_Builder_Walls_48x48.png');
+        this.load.image('generic', 'src/assets/tilemaps/Theme_Sorter_48x48/1_Generic_48x48.png');
+        this.load.image('bathroom', 'src/assets/tilemaps/Theme_Sorter_48x48/3_Bathroom_48x48.png');
+        this.load.image('music', 'src/assets/tilemaps/Theme_Sorter_48x48/6_Music_and_sport_48x48.png');
+        this.load.image('conference', 'src/assets/tilemaps/Theme_Sorter_48x48/13_Conference_Hall_48x48.png');
+        this.load.image('basement', 'src/assets/tilemaps/Theme_Sorter_48x48/14_Basement_48x48.png');
+        this.load.image('stairs', 'src/assets/tilemaps/Theme_Sorter_48x48/17_Visibile_Upstairs_System_48x48.png');
+        this.load.image('hospital', 'src/assets/tilemaps/Theme_Sorter_48x48/19_Hospital_48x48.png');
+        this.load.image('npc', 'src/assets/sprites/character/Witch_idle_48x48.png');
+        this.load.image('npc2', 'src/assets/sprites/character/Fishmonger_2_idle_48x48.png');
+        this.load.image('npc3', 'src/assets/sprites/character/Doctor_2_idle_48x48.png');
+        this.load.image('npc4', 'src/assets/sprites/character/Kid_Abby_idle_48x48.png');
+        this.load.tilemapTiledJSON('tilemap', 'src/assets/tilemaps/disco.json');
     }
 }
